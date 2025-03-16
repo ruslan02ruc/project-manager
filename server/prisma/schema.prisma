@@ -1,0 +1,245 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  email    String @unique
+  password String
+
+  name       String @default("No name")
+  avatarPath String @default("/uploads/default-avatar.png") @map("avatar_path")
+
+  projectsOwned  Project[]       @relation("owner")
+  projectMembers ProjectMember[]
+  tasks          Task[]
+  comments       Comment[]
+  // projectLogs       ProjectLog[]
+  // taskLogs          TaskLog[]
+  // commentLogs       CommentLog[]
+  // projectMemberLogs ProjectMemberLog[]
+
+  // notifications  Notification[]
+  @@map("user")
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title       String
+  description String?
+  status      Status  @default(TODO)
+  isArchive   Boolean @default(false) @map("is_archive")
+
+  owner   User?   @relation("owner", fields: [ownerId], references: [id])
+  ownerId String? @map("owner_id")
+
+  tasks          Task[]
+  projectMembers ProjectMember[]
+  // projectLogs    ProjectLog[]
+
+  @@map("project")
+}
+
+model ProjectMember {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String  @map("project_id")
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+
+  role UserRole @default(USER)
+
+  // projectMemberLogs ProjectMemberLog[]
+
+  @@unique([projectId, userId]) // Запрещает дублирование пользователя в одном проекте
+  @@map("project-member")
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title       String
+  description String?
+  status      Status    @default(TODO)
+  priority    Priority  @default(LOW)
+  startTime   DateTime? @map("start_time")
+  endTime     DateTime? @map("end_time")
+  isArchive   Boolean   @default(false) @map("is_archive")
+
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId String  @map("project_id")
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String? @map("user_id")
+
+  task   Task?   @relation("subtask", fields: [taskId], references: [id], onDelete: Cascade)
+  taskId String? @map("task_id")
+
+  subtasks Task[]    @relation("subtask")
+  comments Comment[]
+  // taskLogs TaskLog[]
+
+  @@map("task")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  message String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+
+  task   Task   @relation(fields: [taskId], references: [id])
+  taskId String @map("task_id")
+
+  parent   Comment? @relation("comment_to_comment", fields: [parentId], references: [id])
+  parentId String?  @map("parent_id")
+
+  replies Comment[] @relation("comment_to_comment")
+  // commentLogs CommentLog[]
+
+  @@map("comment")
+}
+
+// model ProjectLog {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now()) @map("created_at")
+//
+//   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+//   projectId String  @map("project_id")
+//
+//   user   User   @relation(fields: [userId], references: [id])
+//   userId String @map("user_id")
+//
+//   action  ActivityAction
+//   details Json?
+//
+//   @@map("project_log")
+// }
+//
+// model ProjectMemberLog {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now()) @map("created_at")
+//
+//   projectMember   ProjectMember @relation(fields: [projectMemberId], references: [id])
+//   projectMemberId String        @map("project_member_id")
+//
+//   user   User   @relation(fields: [userId], references: [id])
+//   userId String @map("user_id")
+//
+//   action  ActivityAction
+//   details Json?
+//
+//   @@map("project_member_log")
+// }
+//
+// model TaskLog {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now()) @map("created_at")
+//
+//   task   Task   @relation(fields: [taskId], references: [id])
+//   taskId String @map("task_id")
+//
+//   user   User   @relation(fields: [userId], references: [id])
+//   userId String @map("user_id")
+//
+//   action  ActivityAction
+//   details Json?
+//
+//   @@map("task_log")
+// }
+//
+// model CommentLog {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now()) @map("created_at")
+//
+//   comment   Comment @relation(fields: [commentId], references: [id])
+//   commentId String  @map("comment_id")
+//
+//   user   User   @relation(fields: [userId], references: [id])
+//   userId String @map("user_id")
+//
+//   action  ActivityAction
+//   details Json?
+//
+//   @@map("comment_log")
+// }
+
+// model Notification {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now()) @map("created_at")
+//   updatedAt DateTime @updatedAt @map("updated_at")
+//
+//   message String
+//   read    Boolean @default(false)
+//
+//   user   User   @relation(fields: [userId], references: [id])
+//   userId String
+//
+//   @@map("notification")
+// }
+
+model Commit {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  sha         String   @unique
+  message     String
+  timestamp   DateTime
+  authorName  String
+  authorEmail String
+  url         String
+  repository  String
+
+  @@map("commit")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+
+  MANAGER
+  TEAM_MEMBER
+  OBSERBER
+  GUEST
+}
+
+enum Status {
+  TODO
+  IN_PROGRESS
+  REVIEW
+  DONE
+  BLOCKED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum ActivityAction {
+  CREATE
+  UPDATE
+  DELETE
+}
