@@ -10,8 +10,8 @@ export const createTaskSchema = z.object({
 	status: z.nativeEnum(Status),
 	priority: z.nativeEnum(Priority),
 	isArchive: z.boolean().optional(),
-	startTime: z.date().optional(),
-	endTime: z.date().optional()
+	startTime: z.string().datetime().nullable().optional(),
+	endTime: z.string().datetime().nullable().optional()
 })
 
 export type TypeCreateTaskSchema = z.infer<typeof createTaskSchema>

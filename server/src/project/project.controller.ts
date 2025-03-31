@@ -33,6 +33,15 @@ export class ProjectController {
 		return this.projectService.getAllQuery(userId, query)
 	}
 
+	@Get('stranger')
+	@Auth()
+	async getAllStranger(
+		@CurrentUser('id') userId: string,
+		@Query(new ValidationPipe({ transform: true })) query: GetProjectQueryDto
+	) {
+		return this.projectService.getAllStranger(userId, query)
+	}
+
 	@UsePipes(new ValidationPipe())
 	@Post()
 	@HttpCode(200)
@@ -45,6 +54,15 @@ export class ProjectController {
 	@Auth()
 	async getById(@Param('id') id: string) {
 		return this.projectService.getById(id)
+	}
+
+	@Get('stranger/:id')
+	@Auth()
+	async getByStranger(
+		@Param('id') id: string,
+		@CurrentUser('id') userId: string
+	) {
+		return this.projectService.getByStrangerId(id, userId)
 	}
 
 	@UsePipes(new ValidationPipe())

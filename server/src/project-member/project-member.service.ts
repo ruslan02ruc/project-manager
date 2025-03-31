@@ -14,15 +14,18 @@ import { returnProjectMemberObject } from './return-project-member.object'
 export class ProjectMemberService {
 	constructor(private prisma: PrismaService) {}
 
-	async getAll(projectId: string) {
-		const project = await this.prisma.project.findUnique({
+	async getAll(projectId: string, searchTerm?: string) {
+		const project = await this.prisma.project.findFirst({
 			where: {
 				id: projectId
-			}
+			},
+			select: { id: true }
 		})
 		if (!project) throw new NotFoundException('Проект не найден')
 
-		const projectMember = await this.prisma.projectMember.findMany({
+		if (searchTerm) return this.search(projectId, searchTerm)
+
+		return this.prisma.projectMember.findMany({
 			where: {
 				projectId
 			},
@@ -31,10 +34,24 @@ export class ProjectMemberService {
 				createdAt: 'desc'
 			}
 		})
-		if (projectMember.length === 0)
-			throw new NotFoundException('Ролей не найдено')
+	}
 
-		return projectMember
+	private async search(projectId: string, searchTerm: string) {
+		return this.prisma.projectMember.findMany({
+			where: {
+				projectId,
+				user: {
+					email: {
+						contains: searchTerm,
+						mode: 'insensitive'
+					}
+				}
+			},
+			select: returnProjectMemberObject,
+			orderBy: {
+				createdAt: 'desc'
+			}
+		})
 	}
 
 	async getById(id: string) {

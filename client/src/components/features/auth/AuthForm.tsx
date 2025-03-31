@@ -62,7 +62,7 @@ export default function AuthForm({ isLoginForm }: IAuthFields) {
 							<FormItem>
 								<FormLabel>Имя</FormLabel>
 								<FormControl>
-									<Input placeholder='Name' {...field} />
+									<Input placeholder='Имя' {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -74,9 +74,9 @@ export default function AuthForm({ isLoginForm }: IAuthFields) {
 					name='email'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Email</FormLabel>
+							<FormLabel>Почта</FormLabel>
 							<FormControl>
-								<Input placeholder='Email' {...field} />
+								<Input placeholder='Почта' {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -90,7 +90,7 @@ export default function AuthForm({ isLoginForm }: IAuthFields) {
 							<FormLabel>Пароль</FormLabel>
 							<FormControl>
 								<Input
-									placeholder='Password'
+									placeholder='Пароль'
 									type='password'
 									{...field}
 								/>

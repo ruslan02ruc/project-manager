@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { ActivityAction } from '@prisma/client'
+import { PusherService } from 'src/pusher/pusher.service'
 
 import { PrismaService } from '../prisma.service'
 
@@ -8,12 +8,26 @@ import { returnCommentObject } from './return-comment.object'
 
 @Injectable()
 export class CommentService {
-	constructor(private prisma: PrismaService) {}
+	constructor(
+		private prisma: PrismaService,
+		private pusherService: PusherService
+	) {}
+
+	async getTask(id: string) {
+		const comments = await this.prisma.comment.findMany({
+			where: {
+				taskId: id
+			},
+			select: returnCommentObject
+		})
+
+		return comments
+	}
 
 	async getById(id: string) {
-		const comment = await this.prisma.comment.findUnique({
+		const comment = await this.prisma.comment.findMany({
 			where: {
-				id: id
+				taskId: id
 			},
 			select: returnCommentObject
 		})
@@ -22,10 +36,11 @@ export class CommentService {
 		return comment
 	}
 
-	async create(userId: string, taskId: string) {
+	async create(userId: string, taskId: string, dto: UpdateCommentDto) {
+		// 1. Создаём комментарий
 		const comment = await this.prisma.comment.create({
 			data: {
-				message: '',
+				message: dto.message,
 				task: {
 					connect: {
 						id: taskId
@@ -36,21 +51,44 @@ export class CommentService {
 						id: userId
 					}
 				}
+			},
+			include: {
+				user: true
 			}
 		})
-		//
-		// await this.prisma.commentLog.create({
-		//   data: {
-		//     userId,
-		//     commentId: comment.id,
-		//     action: ActivityAction.CREATE,
-		//   },
-		// });
 
-		return comment.id
+		// 2. Получаем projectId задачи
+		const task = await this.prisma.task.findUnique({
+			where: { id: taskId },
+			select: { projectId: true }
+		})
+		if (!task) throw new NotFoundException('Задача не найдена')
+
+		// 3. Получаем участников проекта
+		const members = await this.prisma.projectMember.findMany({
+			where: {
+				projectId: task.projectId
+			},
+			select: {
+				userId: true
+			}
+		})
+
+		// 4. Отправляем событие каждому участнику по личному каналу
+		for (const member of members) {
+			await this.pusherService.trigger(
+				`user-${member.userId}`,
+				'comment_data',
+				comment
+			)
+		}
+
+		// await this.pusherService.trigger('comment', 'comment_data', comment)
+
+		return comment
 	}
 
-	async replyToComment(commentId: string, userId: string) {
+	async replyToComment(commentId: string, dto: UpdateCommentDto) {
 		const parentComment = await this.prisma.comment.findUnique({
 			where: {
 				id: commentId
@@ -60,7 +98,7 @@ export class CommentService {
 
 		const comment = await this.prisma.comment.create({
 			data: {
-				message: '',
+				message: dto.message,
 				task: {
 					connect: {
 						id: parentComment.taskId
@@ -76,21 +114,42 @@ export class CommentService {
 						id: commentId
 					}
 				}
+			},
+			include: {
+				user: true
 			}
 		})
-		//
-		// await this.prisma.commentLog.create({
-		//   data: {
-		//     userId,
-		//     commentId: comment.id,
-		//     action: ActivityAction.CREATE,
-		//   },
-		// });
 
-		return comment.id
+		// 2. Получаем projectId задачи
+		const task = await this.prisma.task.findUnique({
+			where: { id: parentComment.taskId },
+			select: { projectId: true }
+		})
+		if (!task) throw new NotFoundException('Задача не найдена')
+
+		// 3. Получаем участников проекта
+		const members = await this.prisma.projectMember.findMany({
+			where: {
+				projectId: task.projectId
+			},
+			select: {
+				userId: true
+			}
+		})
+
+		// 4. Отправляем событие каждому участнику по личному каналу
+		for (const member of members) {
+			await this.pusherService.trigger(
+				`private-user-${member.userId}`,
+				'comment_data',
+				comment
+			)
+		}
+
+		return comment
 	}
 
-	async update(id: string, dto: UpdateCommentDto, userId: string) {
+	async update(id: string, dto: UpdateCommentDto) {
 		const oldComment = await this.prisma.comment.findUnique({
 			where: { id },
 			select: { id: true }
@@ -103,33 +162,50 @@ export class CommentService {
 				message: dto.message
 			}
 		})
-		//
-		// await this.prisma.commentLog.create({
-		//   data: {
-		//     userId,
-		//     commentId: id,
-		//     action: ActivityAction.UPDATE,
-		//     details: { before: oldComment, after: updatedComment },
-		//   },
-		// });
+
+		// 2. Получаем projectId задачи
+		const task = await this.prisma.task.findUnique({
+			where: { id },
+			select: { projectId: true }
+		})
+		if (!task) throw new NotFoundException('Задача не найдена')
+
+		// 3. Получаем участников проекта
+		const members = await this.prisma.projectMember.findMany({
+			where: {
+				projectId: task.projectId
+			},
+			select: {
+				userId: true
+			}
+		})
+
+		// 4. Отправляем событие каждому участнику по личному каналу
+		for (const member of members) {
+			await this.pusherService.trigger(
+				`private-user-${member.userId}`,
+				'comment_data',
+				updatedComment
+			)
+		}
+
+		// await this.pusherService.trigger(
+		// 	'comment',
+		// 	'comment_data',
+		// 	updatedComment
+		// )
 
 		return updatedComment
 	}
 
-	async delete(id: string, userId: string) {
+	async delete(id: string) {
 		const comment = await this.prisma.comment.delete({
 			where: {
 				id
 			}
 		})
-		//
-		// await this.prisma.commentLog.create({
-		//   data: {
-		//     userId,
-		//     commentId: id,
-		//     action: ActivityAction.DELETE
-		//   },
-		// });
+
+		await this.pusherService.trigger('comment', 'comment_data', comment)
 
 		return comment
 	}

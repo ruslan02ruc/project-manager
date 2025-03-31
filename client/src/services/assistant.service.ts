@@ -6,8 +6,14 @@ import { API_URL } from '@/libs/constants/api.constants'
 import { TypeAddAssistantSchema } from '@/schemas/assistant/add-assistant.schema'
 
 class AssistantService {
-	async getAll(id: string) {
-		return await axiosClassic.get<IAssistant[]>(API_URL.assistant(`/${id}`))
+	async getAll(id: string, searchTerm?: string) {
+		return await axiosClassic.get<IAssistant[]>(API_URL.assistant(`/${id}`), {
+			params: searchTerm
+				? {
+						searchTerm
+					}
+				: {}
+		})
 	}
 
 	async getById(id: string) {

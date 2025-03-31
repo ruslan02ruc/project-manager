@@ -1,5 +1,5 @@
 import { Column, RowData } from '@tanstack/react-table'
-import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react'
+import { ArrowDown, ArrowUp, ChevronsUpDown, LucideIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/common/Button'
 import {
@@ -8,7 +8,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/common/DropdownMenu'
-
 import {
 	Select,
 	SelectContent,
@@ -17,13 +16,18 @@ import {
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/common/Select'
+
 import { cn } from '@/libs/utils'
 
-interface DataTableColumnHeaderProps<TData, TValue, TEnum = string>
+interface DataTableColumnHeaderProps<TData, TValue = string>
 	extends React.HTMLAttributes<HTMLDivElement> {
 	column: Column<TData, TValue>
 	title: string
-	selectEnum?: { [key: string]: TEnum }
+	selectEnum?: {
+		icon: LucideIcon
+		label: string
+		value: string
+	}[]
 }
 
 declare module '@tanstack/react-table' {
@@ -86,7 +90,7 @@ export function DataTableColumnHeader<TData, TValue>({
 					}}
 					value={columnFilterValue?.toString() ?? 'all'}
 				>
-					<SelectTrigger>
+					<SelectTrigger className='hover:bg-muted cursor-pointer border-none'>
 						<SelectValue
 							placeholder={`Выберите ${title.toLowerCase()}`}
 						/>
@@ -96,11 +100,15 @@ export function DataTableColumnHeader<TData, TValue>({
 							<SelectItem value='all'>
 								Все {title.toLowerCase()}ы
 							</SelectItem>
-							{Object.values(selectEnum!!).map(status => (
-								<SelectItem key={status} value={status}>
-									{status}
-								</SelectItem>
-							))}
+							{selectEnum &&
+								selectEnum.map(status => (
+									<SelectItem key={status.value} value={status.value}>
+										<div className='flex items-center gap-2'>
+											<status.icon />
+											{status.label}
+										</div>
+									</SelectItem>
+								))}
 						</SelectGroup>
 					</SelectContent>
 				</Select>

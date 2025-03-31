@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 
-import Projects from '@/components/features/projects/Projects'
+import ClientProject from '@/components/features/projects/ClientProjects'
 
 import { NO_INDEX_PAGE } from '@/libs/constants/seo.constants'
 
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 }
 
 export default function ProjectsPage() {
-	return <Projects />
+	return <ClientProject />
 }

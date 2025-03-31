@@ -1,10 +1,15 @@
 import { Priority, Status } from '@prisma/client'
-import { IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator'
+import {
+	IsBoolean,
+	IsDateString,
+	IsEnum,
+	IsOptional,
+	IsString
+} from 'class-validator'
 
 export class TaskDto {
-	@IsString({
-		message: 'Название обязательно'
-	})
+	@IsString()
+	@IsOptional()
 	title: string
 
 	@IsString()
@@ -17,13 +22,13 @@ export class TaskDto {
 	@IsEnum(Priority)
 	priority: Priority = Priority.LOW
 
-	@IsString()
+	@IsDateString()
 	@IsOptional()
-	startTime: string
+	startTime?: string
 
-	@IsString()
+	@IsDateString()
 	@IsOptional()
-	endTime: string
+	endTime?: string
 
 	@IsOptional()
 	userId: string

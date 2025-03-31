@@ -14,15 +14,11 @@ import {
 import { useProject } from '@/hooks/project/useProject'
 
 const Sidebar: FC<PropsWithChildren<unknown>> = ({ children }) => {
-	// Получаем ID проекта из URL
 	const params = useParams()
 	const projectId = params?.id as string
 
-	// Загружаем данные проекта
 	const { data } = useProject(projectId)
-
-	// Название проекта с фоллбэком
-	const projectTitle = data?.data?.title || 'Проект'
+	const projectTitle = data?.title || 'Проект'
 
 	return (
 		<SidebarProvider>

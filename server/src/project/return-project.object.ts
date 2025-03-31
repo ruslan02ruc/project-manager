@@ -6,7 +6,7 @@ export const returnProjectObject: Prisma.ProjectSelect = {
 	title: true,
 	description: true,
 	status: true,
-	owner: true,
+	ownerId: true,
 	tasks: true,
 	isArchive: true
 }

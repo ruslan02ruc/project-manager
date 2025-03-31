@@ -1,4 +1,3 @@
-import { IUser } from './user.types'
 import { Priority, Status } from '@/libs/enums'
 
 export interface ITask {
@@ -7,11 +6,11 @@ export interface ITask {
 	description?: string
 	status: Status
 	priority: Priority
-	startTime?: Date
-	endTime?: Date
+	startTime?: Status
+	endTime?: Status
 	isArchive?: boolean
-	// project: IProject
-	user: IUser
+	projectId: string
+	userId: string
 	// task: ITask
 	// subtasks: ITask[]
 	// comments: IComment[]

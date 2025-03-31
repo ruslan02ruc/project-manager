@@ -1,9 +1,8 @@
 'use client'
 
 import {
-	AlignJustify,
-	Bell,
 	BookCheck,
+	Briefcase,
 	ChartNoAxesCombined,
 	Folder,
 	LayoutDashboard,
@@ -20,9 +19,9 @@ import {
 	SidebarRail
 } from '@/components/ui/common/Sidebar'
 
+import { ADMIN_URL } from '@/libs/constants/url.constants'
 import { MainNav } from './MainNav'
 import { UserNav } from './UserNav'
-import { ADMIN_URL } from '@/libs/constants/url.constants'
 
 const data = [
 	{
@@ -38,48 +37,28 @@ const data = [
 	{
 		title: 'Мои проекты',
 		url: ADMIN_URL.projects(),
-		icon: Folder,
-		items: [
-			{
-				title: 'Проект 1',
-				url: '#'
-			},
-			{
-				title: 'Проект 2',
-				url: '#'
-			},
-			{
-				title: 'Проект 3',
-				url: '#'
-			}
-		]
+		icon: Folder
+	},
+	{
+		title: 'Чужие проекты',
+		url: ADMIN_URL.strangerProjects(),
+		icon: Briefcase
 	},
 	{
 		title: 'Личные чаты',
-		url: '#', //FIXME: нету URL
-		icon: MessageSquare,
-		items: [
-			{
-				title: 'чат 1',
-				url: '#'
-			}
-		]
+		url: ADMIN_URL.chats(),
+		icon: MessageSquare
 	},
 	{
 		title: 'Мои Задачи',
 		url: ADMIN_URL.tasks(),
 		icon: BookCheck
-	},
-	{
-		title: 'Чужие задачи',
-		url: ADMIN_URL.tasks(), //FIXME: нету URL
-		icon: AlignJustify
-	},
-	{
-		title: 'Уведомления',
-		url: '#', //FIXME: нету URL
-		icon: Bell
 	}
+	// {
+	// 	title: 'Уведомления',
+	// 	url: '#', //FIXME нету URL
+	// 	icon: Bell
+	// }
 ]
 
 export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -90,7 +69,6 @@ export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			</SidebarHeader>
 			<SidebarContent>
 				<MainNav data={data} />
-				{/* <ProjectsNav projects={data.projects} /> */}
 			</SidebarContent>
 			<SidebarFooter>
 				<UserNav />

@@ -13,15 +13,17 @@ import {
 	DialogTrigger
 } from '@/components/ui/common/Dialog'
 
-import { useProjects } from '../../../hooks/project/useProjects'
+import { IProject } from '@/types/project.types'
+
 import { DataTable } from '../../ui/elements/DataTable'
 
 import { columns } from './table/Columns'
-import QueryHeader from '@/components/ui/elements/QueryHeader'
 
-export default function Projects() {
-	const { data } = useProjects()
+interface IProjectsProps {
+	data: IProject[]
+}
 
+export default function Projects({ data }: IProjectsProps) {
 	return (
 		<div className='container relative mx-auto py-10'>
 			<Dialog>
@@ -40,15 +42,8 @@ export default function Projects() {
 					</div>
 				</DialogContent>
 			</Dialog>
-			<QueryHeader />
+			{/* <QueryHeader /> */}
 			<DataTable columns={columns} data={data || []} />
 		</div>
 	)
 }
-
-/** TODO: Project
- * 		Сортировка по 
- * 				- названию 
- * 				- статусу
- * 				-	руководителю
- */

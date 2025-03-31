@@ -33,9 +33,10 @@ export class CommentController {
 	@UseGuards(JwtAuthGuard)
 	async create(
 		@CurrentUser('id') userId: string,
+		@Body() dto: UpdateCommentDto,
 		@Param('id') taskId: string
 	) {
-		return this.commentService.create(userId, taskId)
+		return this.commentService.create(userId, taskId, dto)
 	}
 
 	@Post('reply/:id')
@@ -43,21 +44,17 @@ export class CommentController {
 	@UseGuards(JwtAuthGuard)
 	async replyToComment(
 		@Param('id') commentId: string,
-		@CurrentUser('id') userId: string
+		@Body() dto: UpdateCommentDto
 	) {
-		return this.commentService.replyToComment(commentId, userId)
+		return this.commentService.replyToComment(commentId, dto)
 	}
 
 	@UsePipes(new ValidationPipe())
 	@Put(':id')
 	@HttpCode(200)
 	@UseGuards(JwtAuthGuard)
-	async update(
-		@Param('id') id: string,
-		@Body() dto: UpdateCommentDto,
-		@CurrentUser('id') userId: string
-	) {
-		const updatedProject = await this.commentService.update(id, dto, userId)
+	async update(@Param('id') id: string, @Body() dto: UpdateCommentDto) {
+		const updatedProject = await this.commentService.update(id, dto)
 
 		if (!updatedProject) throw new NotFoundException('Комментарий не найден')
 		return updatedProject
@@ -65,8 +62,8 @@ export class CommentController {
 
 	@Delete(':id')
 	@UseGuards(JwtAuthGuard)
-	async delete(@Param('id') id: string, @CurrentUser('id') userId: string) {
-		const deletedProject = await this.commentService.delete(id, userId)
+	async delete(@Param('id') id: string) {
+		const deletedProject = await this.commentService.delete(id)
 
 		if (!deletedProject) throw new NotFoundException('Комментарий не найден')
 		return deletedProject

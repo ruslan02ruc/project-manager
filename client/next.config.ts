@@ -1,11 +1,11 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
 	env: {
 		SERVER_URL: process.env.SERVER_URL,
 		APP_URL: process.env.APP_URL
 	},
-	async rewrites(){
+	async rewrites() {
 		return [
 			{
 				source: '/uploads/:path*',
@@ -13,6 +13,6 @@ const nextConfig: NextConfig = {
 			}
 		]
 	}
-};
+}
 
-export default nextConfig;
+export default nextConfig

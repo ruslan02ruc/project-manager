@@ -4,11 +4,10 @@ import { projectService } from '@/services/project.service'
 
 import { ProjectQueryParams } from '@/types/project.types'
 
-export function useProjects( params : ProjectQueryParams) {
+export function useProjects(params?: ProjectQueryParams) {
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['projects', params],
-		queryFn: () => projectService.getAll(params),
-		staleTime: 0.2 * 60 * 1000,
+		queryFn: () => projectService.getAll(params)
 	})
 
 	return { data, isLoading, error }

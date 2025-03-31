@@ -1,8 +1,9 @@
 import { axiosWithAuth } from '@/api/interceptors'
 
-import { IUser, IUserEditInput } from '@/types/user.types'
+import { IUser } from '@/types/user.types'
 
 import { API_URL } from '@/libs/constants/api.constants'
+import { TypeUpdateUserSchema } from '@/schemas/user/update-user.scema'
 
 class UserService {
 	async getAll(searchTerm?: string) {
@@ -39,12 +40,12 @@ class UserService {
 		return axiosWithAuth.get<IUser>(API_URL.users(`/by-id/${id}`))
 	}
 
-	async update(id: string, data: IUserEditInput) {
-		return axiosWithAuth.put<string>(API_URL.users(`/${id}`), data)
+	async update(data: TypeUpdateUserSchema) {
+		return axiosWithAuth.put<string>(API_URL.users(''), data)
 	}
 
-	async delete(id: string) {
-		return axiosWithAuth.delete<string>(API_URL.users(`/${id}`))
+	async delete() {
+		return axiosWithAuth.delete<string>(API_URL.users(''))
 	}
 }
 

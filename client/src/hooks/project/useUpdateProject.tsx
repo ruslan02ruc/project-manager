@@ -2,12 +2,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 import { projectService } from '@/services/project.service'
+import { TypeCreateProjectSchema } from '@/schemas/project/create-project.schema'
 
-import { IProjectEdit } from '@/types/project.types'
 
 interface UpdateProjectParams {
 	id: string
-	data: IProjectEdit
+	data: TypeCreateProjectSchema
 }
 
 export function useUpdateProject() {

@@ -6,15 +6,15 @@ import { API_URL } from '@/libs/constants/api.constants'
 
 class CommentService {
 	async getById(id: string) {
-		return axiosWithAuth.get<IComment>(API_URL.comments(`/by-id/${id}`))
+		return axiosWithAuth.get<IComment[]>(API_URL.comments(`/by-id/${id}`))
 	}
 
-	async create(id: string) {
-		return axiosWithAuth.post<string>(API_URL.comments(`/${id}`))
+	async create(id: string, data: ICommentEditInput) {
+		return axiosWithAuth.post<string>(API_URL.comments(`/${id}`), data)
 	}
 
-	async replyToComment(id: string) {
-		return axiosWithAuth.post<string>(API_URL.comments(`/reply/${id}`))
+	async replyToComment(id: string, data: ICommentEditInput) {
+		return axiosWithAuth.post<string>(API_URL.comments(`/reply/${id}`), data)
 	}
 
 	async update(id: string, data: ICommentEditInput) {

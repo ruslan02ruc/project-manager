@@ -8,6 +8,7 @@ import {
 	Param,
 	Post,
 	Put,
+	Query,
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
@@ -23,8 +24,11 @@ export class ProjectMemberController {
 	constructor(private readonly projectMemberService: ProjectMemberService) {}
 
 	@Get(':id')
-	async getAll(@Param('id') projectId: string) {
-		return this.projectMemberService.getAll(projectId)
+	async getAll(
+		@Param('id') projectId: string,
+		@Query('searchTerm') searchTerm?: string
+	) {
+		return this.projectMemberService.getAll(projectId, searchTerm)
 	}
 
 	@Get('by-id/:id')

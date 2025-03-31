@@ -9,7 +9,7 @@ export const returnProjectMemberObject: Prisma.ProjectMemberSelect = {
 			id: true,
 			email: true,
 			name: true,
-			avatarPath: true
+			avatar: true
 		}
 	},
 	role: true

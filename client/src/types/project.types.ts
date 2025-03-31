@@ -1,14 +1,15 @@
 import { IAssistant } from '@/types/assistant.types'
 import { ITask } from '@/types/task.types'
-import { IUser } from '@/types/user.types'
+
+import { Status } from '@/libs/enums'
 
 export interface IProject {
 	id: string
 	title: string
 	description?: string
-	status: string
+	status: Status
 	isArchive: boolean
-	owner: IUser
+	ownerId: string
 	tasks: ITask[]
 	projectMembers: IAssistant[]
 }
@@ -19,4 +20,5 @@ export interface ProjectQueryParams {
 	sortOrder?: 'asc' | 'desc'
 	status?: string
 	isArchive?: boolean
+	title?: string
 }

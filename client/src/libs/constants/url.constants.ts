@@ -20,6 +20,9 @@ export const ADMIN_URL = {
 	projects: () => ADMIN_URL.root(`projects`),
 	project: (id = '') => ADMIN_URL.root(`projects/${id}`),
 
+	strangerProjects: () => ADMIN_URL.root(`stranger-projects`),
+	strangerProject: (id = '') => ADMIN_URL.root(`stranger-projects/${id}`),
+
 	tasks: () => ADMIN_URL.root(`tasks`),
 	taskEdit: (id = '') => ADMIN_URL.root(`tasks/${id}`),
 
@@ -27,5 +30,8 @@ export const ADMIN_URL = {
 	assistantsEdit: (id = '') => ADMIN_URL.root(`project-members/${id}`),
 
 	comments: () => ADMIN_URL.root(`comments`),
-	commentEdit: (id = '') => ADMIN_URL.root(`comments/${id}`)
+	commentEdit: (id = '') => ADMIN_URL.root(`comments/${id}`),
+
+	chats: () => ADMIN_URL.root(`chat`),
+	chatEdit: (id = '') => ADMIN_URL.root(`chat/${id}`)
 }

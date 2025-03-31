@@ -1,23 +1,46 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 
 import { WebhookService } from './webhook.service'
 
 @Controller('webhook')
 export class WebhookController {
-	constructor(private readonly webhookService: WebhookService) {}
+	constructor(
+		private readonly webhookService: WebhookService,
+		private readonly configService: ConfigService
+	) {}
 
-	@Post('/github')
-	async handleGitHubWebhook(@Body() payload: any) {
-		if (!payload.commits || payload.commits.length === 0) {
-			return { message: 'No commits to save' }
-		}
+	@Get('github')
+	async getGitHubWebhook() {
+		return 'Webhook is working'
+	}
 
-		console.log(payload)
-		await this.webhookService.saveCommits(
-			payload.commits,
-			payload.repository.full_name
-		)
+	// @Post('github')
+	// handleWebhook(
+	//   @Req() req: Request,
+	//   @Res() res: Response,
+	//   @Headers('x-hub-signature-256') signature: string,
+	// ): void {
+	//   const secret = process.env.WEBHOOK_SECRET;
 
-		return { message: 'Commits saved' }
+	//   // Проверка подписи
+	//   const payload = JSON.stringify(req.body);
+	//   const hmac = crypto.createHmac('sha256', secret);
+	//   const digest = `sha256=${hmac.update(payload).digest('hex')}`;
+
+	//   if (signature !== digest) {
+	//     this.logger.warn('Signature mismatch');
+	//     return res.status(HttpStatus.FORBIDDEN).send('Invalid signature');
+	//   }
+
+	//   this.logger.log('Webhook received');
+	//   this.webhookService.processPayload(req.body);
+	//   res.status(HttpStatus.OK).send('Success');
+	// }
+
+	@Post('new-message')
+	async handleNewMessage(@Body() messageData: any): Promise<void> {
+		const webhookUrl = 'http://localhost:3000' // URL внешнего приложения
+		await this.webhookService.sendWebhook(webhookUrl, messageData)
 	}
 }

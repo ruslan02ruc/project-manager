@@ -9,7 +9,7 @@ export interface IUser {
 	id: string
 	name: string
 	email: string
-	avatarPath: string
+	avatar: string
 	role: UserRole
 	projectsOwned: IProject[]
 	projectMembers: IAssistant[]

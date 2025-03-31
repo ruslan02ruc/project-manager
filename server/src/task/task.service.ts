@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Priority, Prisma, Status } from '@prisma/client'
+import { PusherService } from 'src/pusher/pusher.service'
 
 import { PrismaService } from '../prisma.service'
 
@@ -9,7 +10,10 @@ import { returnTaskObject } from './return-task.object'
 
 @Injectable()
 export class TaskService {
-	constructor(private prisma: PrismaService) {}
+	constructor(
+		private prisma: PrismaService,
+		private readonly pusherService: PusherService
+	) {}
 
 	async getAll(projectId: string, query: GetTasksQueryDto) {
 		const {
@@ -81,6 +85,7 @@ export class TaskService {
 				}
 			}
 		})
+
 		return task.id
 	}
 
@@ -121,10 +126,29 @@ export class TaskService {
 		})
 		if (!oldTask) throw new NotFoundException('Задача не найдена')
 
-		return await this.prisma.task.update({
+		const updated = await this.prisma.task.update({
 			where: { id },
 			data: dto
 		})
+
+		const members = await this.prisma.projectMember.findMany({
+			where: {
+				projectId: updated.projectId
+			},
+			select: {
+				userId: true
+			}
+		})
+
+		for (const member of members) {
+			await this.pusherService.trigger(
+				`user-${member.userId}`,
+				'task_data',
+				updated
+			)
+		}
+
+		return updated
 	}
 
 	async delete(id: string) {

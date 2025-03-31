@@ -8,7 +8,6 @@ type ToasterProps = ComponentProps<typeof Sonner>
 
 export function ToastProvider({ ...props }: ToasterProps) {
 	const { theme = 'system' } = useTheme()
-
 	return (
 		<Sonner
 			theme={theme as ToasterProps['theme']}

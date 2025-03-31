@@ -9,5 +9,10 @@ async function bootstrap() {
 	app.enableCors()
 
 	await app.listen(4200)
+
+	// const session = await new SessionBuilder().authtokenFromEnv().connect()
+	// const listener = await session.httpEndpoint().listen()
+	// new Logger('main').log(`Ingress established at ${listener.url()}`)
+	// listener.forward(`localhost:${4200}`)
 }
 bootstrap()

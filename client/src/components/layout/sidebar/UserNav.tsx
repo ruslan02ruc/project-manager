@@ -1,15 +1,13 @@
 'use client'
 
 import {
-	BadgeCheck,
-	Bell,
 	ChevronsUpDown,
 	Computer,
 	LogOut,
 	Moon,
-	Settings,
 	Sun,
-	SunMoon
+	SunMoon,
+	UserCog
 } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
@@ -44,7 +42,7 @@ import { useProfile } from '@/hooks/useProfile'
 
 import { removeFromStorage } from '@/services/auth/auth-token.service'
 
-import { PUBLIC_URL } from '@/libs/constants/url.constants'
+import { ADMIN_URL, PUBLIC_URL } from '@/libs/constants/url.constants'
 
 export function UserNav() {
 	const { isMobile } = useSidebar()
@@ -78,7 +76,7 @@ export function UserNav() {
 								<>
 									<Avatar className='h-8 w-8 rounded-lg'>
 										<AvatarImage
-											src={user?.avatarPath}
+											src={user?.avatar}
 											alt={user?.name}
 										/>
 										<AvatarFallback className='rounded-lg'>
@@ -109,7 +107,7 @@ export function UserNav() {
 								<div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
 									<Avatar className='h-8 w-8 rounded-lg'>
 										<AvatarImage
-											src={user?.avatarPath}
+											src={user?.avatar}
 											alt={user?.name}
 										/>
 										<AvatarFallback className='rounded-lg'>
@@ -128,76 +126,13 @@ export function UserNav() {
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<DropdownMenuGroup>
-								<DropdownMenuItem>
-									<BadgeCheck />
-									Account
+								<DropdownMenuItem
+									className='cursor-pointer'
+									onClick={() => push(ADMIN_URL.profile())}
+								>
+									<UserCog />
+									Профиль & настройки
 								</DropdownMenuItem>
-								<DropdownMenuItem>
-									<Settings />
-									Settings
-								</DropdownMenuItem>
-								{/* <DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<DropdownMenuItem>
-											<SunMoon />
-											Тема
-										</DropdownMenuItem>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent align='end' side='right'>
-										<DropdownMenuItem
-											onClick={() => setTheme('light')}
-										>
-											Light
-										</DropdownMenuItem>
-										<DropdownMenuItem
-											onClick={() => setTheme('dark')}
-										>
-											Dark
-										</DropdownMenuItem>
-										<DropdownMenuItem
-											onClick={() => setTheme('system')}
-										>
-											System
-										</DropdownMenuItem>
-									</DropdownMenuContent>
-								</DropdownMenu> */}
-
-								{/* <DropdownMenuGroup>
-									<DropdownMenuSub>
-										<DropdownMenuSubTrigger>
-											<DropdownMenuItem>
-												<SunMoon />
-												Тема
-											</DropdownMenuItem>
-										</DropdownMenuSubTrigger>
-										<DropdownMenuPortal>
-											<DropdownMenuSubContent>
-												<DropdownMenuItem
-													onClick={() => setTheme('light')}
-												>
-													<Sun />
-													<span>Light</span>
-												</DropdownMenuItem>
-												<DropdownMenuItem
-													onClick={() => setTheme('dark')}
-												>
-													<Moon />
-													<span>Dark</span>
-												</DropdownMenuItem>
-												<DropdownMenuSeparator />
-												<DropdownMenuItem
-													onClick={() => setTheme('System')}
-												>
-													<Computer />
-													<span>System</span>
-												</DropdownMenuItem>
-											</DropdownMenuSubContent>
-										</DropdownMenuPortal>
-									</DropdownMenuSub>
-									<DropdownMenuSeparator />
-								</DropdownMenuGroup>
-								 */}
-
 								<DropdownMenuSub>
 									<DropdownMenuSubTrigger className='[&_svg]:text-muted-foreground flex gap-2 [&_svg]:size-4'>
 										<SunMoon />
@@ -209,34 +144,32 @@ export function UserNav() {
 												onClick={() => setTheme('light')}
 											>
 												<Sun />
-												<span>Light</span>
+												<span>Светлый</span>
 											</DropdownMenuItem>
 											<DropdownMenuItem
 												onClick={() => setTheme('dark')}
 											>
 												<Moon />
-												<span>Dark</span>
+												<span>Темный</span>
 											</DropdownMenuItem>
 											<DropdownMenuSeparator />
 											<DropdownMenuItem
 												onClick={() => setTheme('system')}
 											>
 												<Computer />
-												<span>System</span>
+												<span>Система</span>
 											</DropdownMenuItem>
 										</DropdownMenuSubContent>
 									</DropdownMenuPortal>
 								</DropdownMenuSub>
-
-								<DropdownMenuItem>
-									<Bell />
-									Notifications
-								</DropdownMenuItem>
 							</DropdownMenuGroup>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem onClick={() => logout()}>
+							<DropdownMenuItem
+								className='cursor-pointer'
+								onClick={() => logout()}
+							>
 								<LogOut />
-								Log out
+								Выход
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					)}

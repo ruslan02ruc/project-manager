@@ -69,4 +69,21 @@ export class TaskController {
 		if (!deletedProject) throw new NotFoundException('Задача не найден')
 		return deletedProject
 	}
+
+	// private taskUpdates$ = new Subject<TaskDto>();
+	// @Sse('sse')
+	// sse(): Observable<MessageEvent> {
+	//   return this.taskUpdates$.pipe(
+	//     map((data): MessageEvent => ({
+	//       data,
+	//       id: new Date().toISOString(),
+	//       type: 'message',
+	//       retry: 10000
+	//     }))
+	//   );
+	// }
+
+	// pushUpdate(task: TaskDto) {
+	//   this.taskUpdates$.next(task);
+	// }
 }

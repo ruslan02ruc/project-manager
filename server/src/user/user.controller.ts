@@ -41,19 +41,19 @@ export class UserController {
 	}
 
 	@UsePipes(new ValidationPipe())
-	@Put(':id')
+	@Put()
 	@HttpCode(200)
-	@Auth('admin')
-	async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
+	@Auth()
+	async update(@CurrentUser('id') id: string, @Body() dto: UpdateUserDto) {
 		const updatedUser = await this.userService.update(id, dto)
 
 		if (!updatedUser) throw new NotFoundException('Пользователь не найден')
 		return updatedUser
 	}
 
-	@Delete(':id')
+	@Delete()
 	@Auth('admin')
-	async delete(@Param('id') id: string) {
+	async delete(@CurrentUser('id') id: string) {
 		const deletedUser = await this.userService.delete(id)
 
 		if (!deletedUser) throw new NotFoundException('Пользователь не найден')
