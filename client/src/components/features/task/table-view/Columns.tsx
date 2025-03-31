@@ -1,14 +1,7 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import {
-	CircleCheck,
-	ClipboardCheck,
-	LoaderCircle,
-	MoreHorizontal,
-	ScanSearch,
-	ShieldBan
-} from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -36,35 +29,7 @@ import { ITask } from '@/types/task.types'
 
 import TaskForm from './TaskForm'
 import { ADMIN_URL } from '@/libs/constants/url.constants'
-import { Priorities } from '@/libs/enums'
-
-export const SOptions = [
-	{
-		icon: ClipboardCheck,
-		label: 'В работе',
-		value: 'TODO'
-	},
-	{
-		icon: LoaderCircle,
-		label: 'В процессе',
-		value: 'IN_PROGRESS'
-	},
-	{
-		icon: ScanSearch,
-		label: 'В процессе рассмотрения',
-		value: 'REVIEW'
-	},
-	{
-		icon: CircleCheck,
-		label: 'Сделано',
-		value: 'DONE'
-	},
-	{
-		icon: ShieldBan,
-		label: 'Блокированно',
-		value: 'BLOCKED'
-	}
-]
+import { Priorities, StatusOptions } from '@/libs/enums'
 
 export const columns: ColumnDef<ITask>[] = [
 	{
@@ -113,7 +78,7 @@ export const columns: ColumnDef<ITask>[] = [
 			<DataTableColumnHeader
 				column={column}
 				title='Статус'
-				// selectEnum={SOptions}
+				selectEnum={StatusOptions}
 			/>
 		),
 		meta: {
@@ -124,12 +89,14 @@ export const columns: ColumnDef<ITask>[] = [
 			return (
 				<div className='flex items-center space-x-2'>
 					{(() => {
-						const Icon = SOptions.find(
+						const Icon = StatusOptions.find(
 							option => option.value === status
 						)?.icon
 						return Icon ? <Icon className='size-5' /> : null
 					})()}
-					<p>{SOptions.find(option => option.value === status)?.label}</p>
+					<p>
+						{StatusOptions.find(option => option.value === status)?.label}
+					</p>
 				</div>
 			)
 		}
@@ -140,7 +107,7 @@ export const columns: ColumnDef<ITask>[] = [
 			<DataTableColumnHeader
 				column={column}
 				title='Приоритет'
-				// selectEnum={Priorities}
+				selectEnum={Priorities}
 			/>
 		),
 		meta: {

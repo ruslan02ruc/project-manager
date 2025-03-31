@@ -1,5 +1,5 @@
 import { Column, RowData } from '@tanstack/react-table'
-import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react'
+import { ArrowDown, ArrowUp, ChevronsUpDown, LucideIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/common/Button'
 import {
@@ -23,11 +23,11 @@ interface DataTableColumnHeaderProps<TData, TValue = string>
 	extends React.HTMLAttributes<HTMLDivElement> {
 	column: Column<TData, TValue>
 	title: string
-	// selectEnum?: {
-	// 	icon: LucideIcon
-	// 	label: string
-	// 	value: string
-	// }[]
+	selectEnum?: {
+		icon: LucideIcon
+		label: string
+		value: string
+	}[]
 }
 
 declare module '@tanstack/react-table' {
@@ -39,8 +39,8 @@ declare module '@tanstack/react-table' {
 export function DataTableColumnHeader<TData, TValue>({
 	column,
 	title,
-	className
-	// selectEnum
+	className,
+	selectEnum
 }: DataTableColumnHeaderProps<TData, TValue>) {
 	if (!column.getCanSort()) {
 		return <div className={cn(className)}>{title}</div>
@@ -100,7 +100,7 @@ export function DataTableColumnHeader<TData, TValue>({
 							<SelectItem value='all'>
 								Все {title.toLowerCase()}ы
 							</SelectItem>
-							{/* {selectEnum &&
+							{selectEnum &&
 								selectEnum.map(status => (
 									<SelectItem key={status.value} value={status.value}>
 										<div className='flex items-center gap-2'>
@@ -108,7 +108,7 @@ export function DataTableColumnHeader<TData, TValue>({
 											{status.label}
 										</div>
 									</SelectItem>
-								))} */}
+								))}
 						</SelectGroup>
 					</SelectContent>
 				</Select>
