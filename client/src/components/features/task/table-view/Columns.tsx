@@ -29,7 +29,7 @@ import { ITask } from '@/types/task.types'
 
 import TaskForm from './TaskForm'
 import { ADMIN_URL } from '@/libs/constants/url.constants'
-import { Priorities, StatusOptions } from '@/libs/enums'
+import { Priorities, StatusOptions as Status } from '@/libs/enums'
 
 export const columns: ColumnDef<ITask>[] = [
 	{
@@ -78,7 +78,7 @@ export const columns: ColumnDef<ITask>[] = [
 			<DataTableColumnHeader
 				column={column}
 				title='Статус'
-				selectEnum={StatusOptions}
+				selectEnum={Status}
 			/>
 		),
 		meta: {
@@ -89,14 +89,12 @@ export const columns: ColumnDef<ITask>[] = [
 			return (
 				<div className='flex items-center space-x-2'>
 					{(() => {
-						const Icon = StatusOptions.find(
+						const Icon = Status.find(
 							option => option.value === status
 						)?.icon
 						return Icon ? <Icon className='size-5' /> : null
 					})()}
-					<p>
-						{StatusOptions.find(option => option.value === status)?.label}
-					</p>
+					<p>{Status.find(option => option.value === status)?.label}</p>
 				</div>
 			)
 		}
