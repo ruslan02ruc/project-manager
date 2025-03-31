@@ -16,20 +16,6 @@ export enum UserRole {
 	GUEST = 'GUEST'
 }
 
-export enum Status {
-	TODO = 'TODO',
-	IN_PROGRESS = 'IN_PROGRESS',
-	REVIEW = 'REVIEW',
-	DONE = 'DONE',
-	BLOCKED = 'BLOCKED'
-}
-
-export enum Priority {
-	LOW = 'LOW',
-	MEDIUM = 'MEDIUM',
-	HIGH = 'HIGH'
-}
-
 export const Priorities = [
 	{
 		icon: SignalLow,
@@ -48,7 +34,11 @@ export const Priorities = [
 	}
 ]
 
-export const StatusOptions: { icon: LucideIcon; label: string; value: string }[] = [
+export const StatusOptions: {
+	icon: LucideIcon
+	label: string
+	value: string
+}[] = [
 	{
 		icon: ClipboardCheck,
 		label: 'В работе',
@@ -75,3 +65,17 @@ export const StatusOptions: { icon: LucideIcon; label: string; value: string }[]
 		value: 'BLOCKED'
 	}
 ]
+
+export enum Status {
+	TODO = 'TODO',
+	IN_PROGRESS = 'IN_PROGRESS',
+	REVIEW = 'REVIEW',
+	DONE = 'DONE',
+	BLOCKED = 'BLOCKED'
+}
+
+export enum Priority {
+	LOW = 'LOW',
+	MEDIUM = 'MEDIUM',
+	HIGH = 'HIGH'
+}
