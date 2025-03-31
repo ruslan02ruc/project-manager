@@ -79,7 +79,7 @@ export const columns: ColumnDef<IProject>[] = [
 			<DataTableColumnHeader
 				column={column}
 				title='Статус'
-				selectEnum={StatusOptions}
+				// selectEnum={StatusOptions}
 			/>
 		),
 		meta: {
