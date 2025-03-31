@@ -113,7 +113,7 @@ export const columns: ColumnDef<ITask>[] = [
 			<DataTableColumnHeader
 				column={column}
 				title='Статус'
-				selectEnum={SOptions}
+				// selectEnum={SOptions}
 			/>
 		),
 		meta: {
