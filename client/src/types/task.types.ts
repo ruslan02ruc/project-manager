@@ -1,13 +1,11 @@
-import { Priority, Status } from '@/libs/enums'
-
 export interface ITask {
 	id: string
 	title: string
 	description?: string
 	status: string
-	priority: Priority
-	startTime?: Status
-	endTime?: Status
+	priority: string
+	startTime?: string
+	endTime?: string
 	isArchive?: boolean
 	projectId: string
 	userId: string
