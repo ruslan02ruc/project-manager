@@ -24,8 +24,9 @@ import { DatePicker } from '@/components/ui/elements/DatePicker'
 
 import { ITask } from '@/types/task.types'
 
+import { useUser } from '@/hooks/user/useUser'
+import { Priorities, StatusOptions } from '@/libs/enums'
 import TaskForm from './TaskForm'
-import { Priority, Status } from '@/libs/enums'
 
 export const columns: ColumnDef<ITask>[] = [
 	{
@@ -69,7 +70,7 @@ export const columns: ColumnDef<ITask>[] = [
 			<DataTableColumnHeader
 				column={column}
 				title='Статус'
-				selectEnum={Status}
+				selectEnum={StatusOptions}
 			/>
 		),
 		meta: {
@@ -82,7 +83,7 @@ export const columns: ColumnDef<ITask>[] = [
 			<DataTableColumnHeader
 				column={column}
 				title='Приоритет'
-				selectEnum={Priority}
+				selectEnum={Priorities}
 			/>
 		),
 		meta: {
@@ -105,17 +106,17 @@ export const columns: ColumnDef<ITask>[] = [
 		accessorKey: 'user',
 		header: 'Исполнитель',
 		cell: ({ row }) => {
-			const { user } = row.original
-
-			return user ? (
+			const { userId } = row.original
+			const { data } = useUser(userId)
+			return userId ? (
 				<div className='flex items-center space-x-2'>
 					<Avatar className='outline-ring cursor-pointer hover:outline-2 hover:outline-offset-2'>
-						<AvatarImage src={user.avatarPath} alt={user.email} />
+						<AvatarImage src={data?.data.avatar} alt={data?.data.email} />
 						<AvatarFallback className='text-xs'>
-							{user.email}
+							{data?.data.email}
 						</AvatarFallback>
 					</Avatar>
-					<p>{user.name}</p>
+					<p>{data?.data.name}</p>
 				</div>
 			) : (
 				<p>Не назначен</p>

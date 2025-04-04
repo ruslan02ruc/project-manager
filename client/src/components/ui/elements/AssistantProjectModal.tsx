@@ -152,7 +152,7 @@ export function AssistantProjectModal({
 															>
 																<Avatar className='size-6'>
 																	<AvatarImage
-																		src={user.avatarPath}
+																		src={user.avatar}
 																		alt={user.name}
 																	/>
 																</Avatar>

@@ -99,7 +99,12 @@ export default function TaskForm({
 
 	useEffect(() => {
 		if (data?.data) {
-			form.reset(data.data)
+			const formattedData = {
+				...data.data,
+				startTime: data.data.startTime ? new Date(data.data.startTime).toISOString() : null,
+				endTime: data.data.endTime ? new Date(data.data.endTime).toISOString() : null
+			}
+			form.reset(formattedData)
 			form.setValue('status', data.data.status)
 			form.setValue('priority', data.data.priority)
 		}

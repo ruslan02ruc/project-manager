@@ -2,7 +2,6 @@ import {
 	CircleCheck,
 	ClipboardCheck,
 	LoaderCircle,
-	LucideIcon,
 	ScanSearch,
 	ShieldBan,
 	SignalHigh,
@@ -34,11 +33,7 @@ export const Priorities = [
 	}
 ]
 
-export const StatusOptions: {
-	icon: LucideIcon
-	label: string
-	value: string
-}[] = [
+export const StatusOptions = [
 	{
 		icon: ClipboardCheck,
 		label: 'В работе',

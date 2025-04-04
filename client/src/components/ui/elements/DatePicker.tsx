@@ -37,8 +37,8 @@ export function DatePicker({
 			}
 		}
 		return {
-			from: initialFrom ? initialFrom : undefined,
-			to: initialTo ? initialTo : undefined
+			from: initialFrom ? new Date(initialFrom) : undefined,
+			to: initialTo ? new Date(initialTo) : undefined
 		}
 	})
 

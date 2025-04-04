@@ -46,8 +46,8 @@ export default function TaskFormAdd({ id }: ITaskFormAdd) {
 			description: '',
 			status: Status.TODO,
 			priority: Priority.LOW,
-			startTime: new Date(),
-			endTime: new Date()
+			startTime: format(new Date(), 'yyyy-MM-dd'),
+			endTime: format(new Date(), 'yyyy-MM-dd')
 		},
 		mode: 'onChange'
 	})

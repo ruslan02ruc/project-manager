@@ -1,5 +1,3 @@
-import { DndContext, DragEndEvent, closestCorners } from '@dnd-kit/core'
-
 import { usePusherTask } from '@/hooks/task/usePusherTask'
 import { useUpdateTask } from '@/hooks/task/useUpdateTask'
 
@@ -7,6 +5,7 @@ import { ITask } from '@/types/task.types'
 
 import DroppableColumn from './DroppableColumnProps'
 import { Status, StatusOptions } from '@/libs/enums'
+import { closestCorners, DndContext, DragEndEvent } from '@dnd-kit/core'
 
 interface IProject {
 	data: ITask[]
@@ -23,9 +22,6 @@ export default function BoardView({ data, projectId }: IProject) {
 
 		const taskId = active.id as string
 		const newStatus = over.id as ITask['status']
-
-		console.log('Task ID:', taskId)
-		console.log('New Status:', newStatus)
 
 		updateTask({ id: taskId, data: { status: newStatus as Status } })
 	}

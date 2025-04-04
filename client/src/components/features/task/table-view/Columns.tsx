@@ -29,7 +29,7 @@ import { ITask } from '@/types/task.types'
 
 import TaskForm from './TaskForm'
 import { ADMIN_URL } from '@/libs/constants/url.constants'
-import { Priorities } from '@/libs/enums'
+import { Priorities, StatusOptions } from '@/libs/enums'
 
 export const columns: ColumnDef<ITask>[] = [
 	{
@@ -72,35 +72,35 @@ export const columns: ColumnDef<ITask>[] = [
 		accessorKey: 'description',
 		header: 'Описание'
 	},
-	// {
-	// 	accessorKey: 'status',
-	// 	header: ({ column }) => (
-	// 		<DataTableColumnHeader
-	// 			column={column}
-	// 			title='Статус'
-	// 			selectEnum={StatusOptions}
-	// 		/>
-	// 	),
-	// 	meta: {
-	// 		filterVariant: 'select'
-	// 	},
-	// 	cell: ({ row }) => {
-	// 		const { status } = row.original
-	// 		return (
-	// 			<div className='flex items-center space-x-2'>
-	// 				{(() => {
-	// 					const Icon = StatusOptions.find(
-	// 						option => option.value === status
-	// 					)?.icon
-	// 					return Icon ? <Icon className='size-5' /> : null
-	// 				})()}
-	// 				<p>
-	// 					{StatusOptions.find(option => option.value === status)?.label}
-	// 				</p>
-	// 			</div>
-	// 		)
-	// 	}
-	// },
+	{
+		accessorKey: 'status',
+		header: ({ column }) => (
+			<DataTableColumnHeader
+				column={column}
+				title='Статус'
+				selectEnum={StatusOptions}
+			/>
+		),
+		meta: {
+			filterVariant: 'select'
+		},
+		cell: ({ row }) => {
+			const { status } = row.original
+			return (
+				<div className='flex items-center space-x-2'>
+					{(() => {
+						const Icon = StatusOptions.find(
+							option => option.value === status
+						)?.icon
+						return Icon ? <Icon className='size-5' /> : null
+					})()}
+					<p>
+						{StatusOptions.find(option => option.value === status)?.label}
+					</p>
+				</div>
+			)
+		}
+	},
 	{
 		accessorKey: 'priority',
 		header: ({ column }) => (

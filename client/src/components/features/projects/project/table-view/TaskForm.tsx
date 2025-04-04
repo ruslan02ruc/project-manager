@@ -62,8 +62,8 @@ export default function TaskForm({ id, isOpen, setIsOpen }: ITaskForm) {
 			status: Status.TODO,
 			priority: Priority.LOW,
 			isArchive: false,
-			startTime: new Date(),
-			endTime: new Date()
+			startTime: new Date().toISOString(),
+			endTime: new Date().toISOString()
 		},
 		mode: 'onChange'
 	})
@@ -79,7 +79,14 @@ export default function TaskForm({ id, isOpen, setIsOpen }: ITaskForm) {
 
 	useEffect(() => {
 		if (data?.data) {
-			form.reset(data.data)
+			const formattedData = {
+				...data.data,
+				startTime: data.data.startTime ? new Date(data.data.startTime).toISOString() : null,
+				endTime: data.data.endTime ? new Date(data.data.endTime).toISOString() : null,
+				status: data.data.status as Status,
+				priority: data.data.priority as Priority
+			}
+			form.reset(formattedData)
 		}
 	}, [data, form])
 
