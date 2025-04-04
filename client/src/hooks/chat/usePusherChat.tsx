@@ -13,8 +13,8 @@ export const usePusherChat = () => {
 	useEffect(() => {
 		if (!user?.id) return
 
-		const pusher = new Pusher('711384b4a91a92361e7e', {
-			cluster: 'eu'
+		const pusher = new Pusher(process.env.PUSHER_APP_KEY!, {
+			cluster: process.env.PUSHER_CLUSTER!
 		})
 
 		const channel = pusher.subscribe(`user-${user.id}`)

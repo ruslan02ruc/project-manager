@@ -16,7 +16,10 @@ import { WebsocketModule } from './websocket/websocket.module'
 
 @Module({
 	imports: [
-		ConfigModule.forRoot(),
+		ConfigModule.forRoot({
+			isGlobal: true,
+			envFilePath: '.env'
+		}),
 		AuthModule,
 		UserModule,
 		ProjectModule,

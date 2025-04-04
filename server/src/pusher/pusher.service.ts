@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import * as Pusher from 'pusher'
 
 @Injectable()
 export class PusherService {
 	private pusher: Pusher
 
-	constructor() {
+	constructor(private configService: ConfigService) {
 		this.pusher = new Pusher({
-			appId: '1962315',
-			key: '711384b4a91a92361e7e',
-			secret: 'f72738b6d1c5c0026ac9',
-			cluster: 'eu'
-			// useTLS: true
+			appId: process.env.PUSHER_APP_ID,
+			key: process.env.PUSHER_APP_KEY,
+			secret: process.env.PUSHER_APP_SECRET,
+			cluster: process.env.PUSHER_CLUSTER
 		})
 	}
 
