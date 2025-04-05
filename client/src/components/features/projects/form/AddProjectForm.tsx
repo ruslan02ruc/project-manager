@@ -84,11 +84,10 @@ export default function AddProjectForm() {
 								Закрыть
 							</Button>
 						</DialogClose>
-						<DialogClose asChild>
-							<Button type='submit' className='cursor-pointer'>
-								Создать
-							</Button>
-						</DialogClose>
+						<Button type='submit' className='cursor-pointer'>
+							<DialogClose asChild></DialogClose>
+							Создать
+						</Button>
 					</div>
 				</DialogFooter>
 			</form>
