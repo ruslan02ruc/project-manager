@@ -6,7 +6,7 @@ import { useProjects } from '@/hooks/project/useProjects'
 
 import { columns } from './table/Columns'
 
-export default function ArchiveProject(p0: { id: string; archive: boolean }) {
+export default function ArchiveProject() {
 	const params = {
 		isArchive: true
 	}
