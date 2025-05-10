@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Prisma, Status } from '@prisma/client'
+import { TelegramService } from 'src/telegram/telegram.service'
 
 import { PrismaService } from '../prisma.service'
 
@@ -9,7 +10,10 @@ import { returnProjectObject } from './return-project.object'
 
 @Injectable()
 export class ProjectService {
-	constructor(private prisma: PrismaService) {}
+	constructor(
+		private prisma: PrismaService,
+		private readonly telegramService: TelegramService
+	) {}
 
 	async getAllQuery(userId: string, query: GetProjectQueryDto) {
 		const {
@@ -153,6 +157,16 @@ export class ProjectService {
 	}
 
 	async update(id: string, dto: ProjectDto) {
+		const project = await this.prisma.project.findUnique({
+			where: {
+				id
+			}
+		})
+
+		await this.telegramService.notifyProjectMembers(
+			id,
+			`🆕 проект id: *${project.title}* ${dto.isArchive === true ? 'в архиве' : 'активен'}`
+		)
 		return this.prisma.project.update({
 			where: { id },
 			data: dto

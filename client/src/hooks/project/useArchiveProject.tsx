@@ -3,20 +3,20 @@ import { toast } from 'sonner'
 
 import { projectService } from '@/services/project.service'
 
-import { TypeUpdateProjectSchema } from '@/schemas/project/update-project.schema'
+import { TypeArchiveProjectSchema } from '@/schemas/project/archive-project.schema'
 
 interface UpdateProjectParams {
 	id: string
-	data: TypeUpdateProjectSchema
+	isArchive: TypeArchiveProjectSchema
 }
 
-export function useUpdateProject() {
+export function useArchiveProject() {
 	const queryClient = useQueryClient()
 
-	const { mutateAsync: updateProject } = useMutation({
+	const { mutateAsync: archiveProject } = useMutation({
 		mutationKey: ['update project'],
-		mutationFn: ({ id, data }: UpdateProjectParams) =>
-			projectService.update(id, data),
+		mutationFn: ({ id, isArchive }: UpdateProjectParams) =>
+			projectService.updateArchive(id, isArchive),
 		onSuccess() {
 			toast.success('Проект обновлен')
 			queryClient.invalidateQueries({
@@ -28,5 +28,5 @@ export function useUpdateProject() {
 		}
 	})
 
-	return { updateProject }
+	return { archiveProject }
 }

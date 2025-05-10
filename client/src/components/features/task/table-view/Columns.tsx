@@ -20,9 +20,16 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/common/DropdownMenu'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from '@/components/ui/common/Tooltip'
 import { DataTableColumnHeader } from '@/components/ui/elements/DataTableColumnHeader'
 import { DatePicker } from '@/components/ui/elements/DatePicker'
 
+import { useDeleteTask } from '@/hooks/task/useDeleteTask'
 import { useUser } from '@/hooks/user/useUser'
 
 import { ITask } from '@/types/task.types'
@@ -70,7 +77,25 @@ export const columns: ColumnDef<ITask>[] = [
 	},
 	{
 		accessorKey: 'description',
-		header: 'Описание'
+		header: 'Описание',
+		cell: ({ row }) => {
+			return (
+				<div>
+					{row.original.description && (
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger>
+									{row.original.description?.slice(0, 20) + '...'}
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>{row.original.description}</p>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+					)}
+				</div>
+			)
+		}
 	},
 	{
 		accessorKey: 'status',
@@ -170,6 +195,7 @@ export const columns: ColumnDef<ITask>[] = [
 		cell: ({ row }) => {
 			const task = row.original
 			const [isOpen, setIsOpen] = useState(false)
+			const { deleteTask } = useDeleteTask()
 			return (
 				<>
 					<DropdownMenu>
@@ -190,7 +216,9 @@ export const columns: ColumnDef<ITask>[] = [
 							<DropdownMenuItem onClick={() => setIsOpen(true)}>
 								Просмотр задачи
 							</DropdownMenuItem>
-							<DropdownMenuItem>В архив</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => deleteTask(task.id)}>
+								Удалить
+							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 

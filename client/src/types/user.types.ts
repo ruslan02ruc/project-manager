@@ -11,6 +11,7 @@ export interface IUser {
 	email: string
 	avatar: string
 	role: UserRole
+	telegramName: string
 	projectsOwned: IProject[]
 	projectMembers: IAssistant[]
 	tasks: ITask[]

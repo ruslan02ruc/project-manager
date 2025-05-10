@@ -1,6 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Priority, Prisma, Status } from '@prisma/client'
 import { PusherService } from 'src/pusher/pusher.service'
+import { TelegramService } from 'src/telegram/telegram.service'
+
+// import { TelegramService } from 'src/telegram/telegram.service'
 
 import { PrismaService } from '../prisma.service'
 
@@ -12,7 +15,8 @@ import { returnTaskObject } from './return-task.object'
 export class TaskService {
 	constructor(
 		private prisma: PrismaService,
-		private readonly pusherService: PusherService
+		private readonly pusherService: PusherService,
+		private readonly telegramService: TelegramService
 	) {}
 
 	async getAll(projectId: string, query: GetTasksQueryDto) {
@@ -86,6 +90,17 @@ export class TaskService {
 			}
 		})
 
+		const projectTitle = await this.prisma.project.findUnique({
+			where: {
+				id: task.projectId
+			}
+		})
+
+		await this.telegramService.notifyProjectMembers(
+			task.projectId,
+			`🆕 **Новая задача:** *${task.title}*\n📁 В проекте: ${projectTitle?.title}, \nпроект id: ${task.projectId}`
+		)
+
 		return task.id
 	}
 
@@ -147,6 +162,17 @@ export class TaskService {
 				updated
 			)
 		}
+
+		const projectTitle = await this.prisma.project.findUnique({
+			where: {
+				id: updated.projectId
+			}
+		})
+
+		await this.telegramService.notifyProjectMembers(
+			updated.projectId,
+			`🆕 **Новая задача:** *${updated.title}*\n📁 В проекте: ${projectTitle?.title}, \nпроект id: ${updated.projectId}`
+		)
 
 		return updated
 	}

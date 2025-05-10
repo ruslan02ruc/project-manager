@@ -33,5 +33,7 @@ export const ADMIN_URL = {
 	commentEdit: (id = '') => ADMIN_URL.root(`comments/${id}`),
 
 	chats: () => ADMIN_URL.root(`chat`),
-	chatEdit: (id = '') => ADMIN_URL.root(`chat/${id}`)
+	chatEdit: (id = '') => ADMIN_URL.root(`chat/${id}`),
+
+	archive: () => ADMIN_URL.root(`archive`),
 }

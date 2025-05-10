@@ -5,6 +5,7 @@ import {
 	Briefcase,
 	ChartNoAxesCombined,
 	Folder,
+	FolderArchive,
 	LayoutDashboard,
 	MessageSquare
 } from 'lucide-react'
@@ -50,10 +51,15 @@ const data = [
 		icon: MessageSquare
 	},
 	{
-		title: 'Мои Задачи',
-		url: ADMIN_URL.tasks(),
-		icon: BookCheck
-	}
+		title: 'Архив',
+		url: ADMIN_URL.archive(),
+		icon: FolderArchive
+	},
+	// {
+	// 	title: 'Мои Задачи',
+	// 	url: ADMIN_URL.tasks(),
+	// 	icon: BookCheck
+	// }
 	// {
 	// 	title: 'Уведомления',
 	// 	url: '#', //FIXME нету URL

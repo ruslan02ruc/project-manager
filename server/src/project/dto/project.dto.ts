@@ -5,6 +5,7 @@ export class ProjectDto {
 	@IsString({
 		message: 'Название обязательно'
 	})
+	@IsOptional()
 	title: string
 
 	@IsString()

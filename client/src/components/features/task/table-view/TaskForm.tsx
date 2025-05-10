@@ -101,8 +101,12 @@ export default function TaskForm({
 		if (data?.data) {
 			const formattedData = {
 				...data.data,
-				startTime: data.data.startTime ? new Date(data.data.startTime).toISOString() : null,
-				endTime: data.data.endTime ? new Date(data.data.endTime).toISOString() : null
+				startTime: data.data.startTime
+					? new Date(data.data.startTime).toISOString()
+					: null,
+				endTime: data.data.endTime
+					? new Date(data.data.endTime).toISOString()
+					: null
 			}
 			form.reset(formattedData)
 			form.setValue('status', data.data.status)
@@ -130,7 +134,7 @@ export default function TaskForm({
 	return (
 		<Sheet open={isOpen} onOpenChange={setIsOpen}>
 			<SheetContent className='lg:!w-3/7 flex h-full !w-full !max-w-none flex-col px-4 sm:!w-1/2'>
-				<ScrollArea className='flex-grow overflow-auto py-10'>
+				<ScrollArea className='flex-grow overflow-auto pt-4'>
 					<Form {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}

@@ -15,8 +15,10 @@ model User {
   email    String @unique
   password String
 
-  name   String @default("No name")
-  avatar String @default("/uploads/default-avatar.png") @map("avatar")
+  name         String  @default("No name")
+  avatar       String  @default("/uploads/default-avatar.png") @map("avatar")
+  telegramName String? @map("telegram_name")
+  telegramId   String? @map("telegram_id")
 
   projectsOwned  Project[]       @relation("owner")
   projectMembers ProjectMember[]
@@ -79,7 +81,7 @@ model Task {
   endTime     DateTime? @map("end_time")
   isArchive   Boolean   @default(false) @map("is_archive")
 
-  project   Project @relation(fields: [projectId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String  @map("project_id")
 
   user   User?   @relation(fields: [userId], references: [id])
@@ -104,7 +106,7 @@ model Comment {
   user   User   @relation(fields: [userId], references: [id])
   userId String @map("user_id")
 
-  task   Task   @relation(fields: [taskId], references: [id])
+  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId String @map("task_id")
 
   parent   Comment? @relation("comment_to_comment", fields: [parentId], references: [id])

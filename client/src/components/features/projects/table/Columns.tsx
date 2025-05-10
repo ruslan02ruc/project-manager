@@ -23,6 +23,7 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/common/DropdownMenu'
 
+import { useArchiveProject } from '@/hooks/project/useArchiveProject'
 import { useUser } from '@/hooks/user/useUser'
 
 import { IProject } from '@/types/project.types'
@@ -126,11 +127,17 @@ export const columns: ColumnDef<IProject>[] = [
 			const project = row.original
 			const { push } = useRouter()
 			const [isOpen, setIsOpen] = useState(false)
-
+			const { archiveProject } = useArchiveProject()
 			const ProjectFormUpdate = dynamic(
 				() => import('./ProjectFormUpdate'),
 				{ ssr: false }
 			)
+			const setArchive = async (id: string) => {
+				await archiveProject({
+					id,
+					isArchive: { isArchive: !project.isArchive }
+				})
+			}
 
 			return (
 				<>
@@ -159,7 +166,9 @@ export const columns: ColumnDef<IProject>[] = [
 							<DropdownMenuItem onClick={() => setIsOpen(true)}>
 								Настройка проекта
 							</DropdownMenuItem>
-							<DropdownMenuItem>В архив</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => setArchive(project.id)}>
+								В архив
+							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 					<ProjectFormUpdate

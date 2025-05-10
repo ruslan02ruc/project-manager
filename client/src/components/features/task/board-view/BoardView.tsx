@@ -1,3 +1,5 @@
+import { DndContext, DragEndEvent, closestCorners } from '@dnd-kit/core'
+
 import { usePusherTask } from '@/hooks/task/usePusherTask'
 import { useUpdateTask } from '@/hooks/task/useUpdateTask'
 
@@ -5,7 +7,6 @@ import { ITask } from '@/types/task.types'
 
 import DroppableColumn from './DroppableColumnProps'
 import { Status, StatusOptions } from '@/libs/enums'
-import { closestCorners, DndContext, DragEndEvent } from '@dnd-kit/core'
 
 interface IProject {
 	data: ITask[]
@@ -43,3 +44,5 @@ export default function BoardView({ data, projectId }: IProject) {
 		</div>
 	)
 }
+
+//TODO: кнопку создать переделать

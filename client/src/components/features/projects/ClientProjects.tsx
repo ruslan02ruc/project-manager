@@ -5,7 +5,10 @@ import { useProjects } from '@/hooks/project/useProjects'
 import Projects from './Projects'
 
 export default function ClientProject() {
-	const { data } = useProjects()
+	const params = {
+		isArchive: false
+	}
+	const { data } = useProjects(params)
 
 	return <Projects data={data || []} />
 }

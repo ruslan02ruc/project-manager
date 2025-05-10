@@ -34,7 +34,8 @@ export default function Profile() {
 			name: '',
 			email: '',
 			// password: '',
-			avatar: ''
+			avatar: '',
+			telegramName: ''
 		},
 		mode: 'onChange'
 	})
@@ -93,23 +94,19 @@ export default function Profile() {
 								</FormItem>
 							)}
 						/>
-						{/* <FormField
+						<FormField
 							control={form.control}
-							name='password'
+							name='telegramName'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Пароль</FormLabel>
+									<FormLabel>telegram Name</FormLabel>
 									<FormControl>
-										<Input
-											type='password'
-											placeholder='Пароль'
-											{...field}
-										/>
+										<Input placeholder='telegram name' {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
-						/> */}
+						/>
 						<FormField
 							control={form.control}
 							name='avatar'

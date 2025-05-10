@@ -13,7 +13,8 @@ export const updateUserSchema = z.object({
 	// password: z.string().min(5, {
 	// 	message: 'Пароль должен содержать 6 символов'
 	// }),
-	avatar: z.string().optional()
+	avatar: z.string().optional(),
+	telegramName: z.string().optional()
 })
 
 export type TypeUpdateUserSchema = z.infer<typeof updateUserSchema>

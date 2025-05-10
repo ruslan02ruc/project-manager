@@ -3,8 +3,9 @@ import { axiosWithAuth } from '@/api/interceptors'
 import { IProject, ProjectQueryParams } from '@/types/project.types'
 
 import { API_URL } from '@/libs/constants/api.constants'
-import { TypeCreateTaskSchema } from '@/schemas/task/create-task.schema'
 import { TypeCreateProjectSchema } from '@/schemas/project/create-project.schema'
+import { TypeUpdateProjectSchema } from '@/schemas/project/update-project.schema'
+import { TypeArchiveProjectSchema } from '@/schemas/project/archive-project.schema'
 
 class ProjectService {
 	async getAll(params?: ProjectQueryParams) {
@@ -47,8 +48,12 @@ class ProjectService {
 		return axiosWithAuth.post<string>(API_URL.projects(''), data)
 	}
 
-	async update(id: string, data: TypeCreateProjectSchema) {
+	async update(id: string, data: TypeUpdateProjectSchema) {
 		return axiosWithAuth.put<string>(API_URL.projects(`/${id}`), data)
+	}
+
+	async updateArchive(id: string, archive: TypeArchiveProjectSchema) {
+		return axiosWithAuth.put<string>(API_URL.projects(`/${id}`), archive)
 	}
 
 	async delete(id: string) {
