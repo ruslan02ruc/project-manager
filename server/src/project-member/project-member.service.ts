@@ -4,8 +4,7 @@ import {
 	NotFoundException
 } from '@nestjs/common'
 import { UserRole } from '@prisma/client'
-
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from 'src/prisma.service'
 
 import { ProjectMemberDto } from './dto/project-member.dto'
 import { returnProjectMemberObject } from './return-project-member.object'

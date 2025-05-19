@@ -5,8 +5,7 @@ import {
 	Injectable
 } from '@nestjs/common'
 import { User, UserRole } from '@prisma/client'
-
-import { PrismaService } from '../../prisma.service'
+import { PrismaService } from 'src/prisma.service'
 
 @Injectable()
 export class OnlyAdminGuard implements CanActivate {

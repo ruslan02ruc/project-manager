@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { PrismaService } from 'src/prisma.service'
 
-import { getJwtConfig } from '../config/jwt.config'
-import { UserModule } from '../user/user.module'
-import { UserService } from '../user/user.service'
+import { getJwtConfig } from 'src/config/jwt.config'
+import { UserModule } from 'src/user/user.module'
+import { UserService } from 'src/user/user.service'
 
 import { WebsocketGateway } from './websocket.gateway'
 import { WebsocketService } from './websocket.service'

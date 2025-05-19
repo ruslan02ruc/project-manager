@@ -12,9 +12,8 @@ import {
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
-
-import { JwtAuthGuard } from '../auth/guard/jwt.guard'
-import { CurrentUser } from '../user/decorators/user.decorator'
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard'
+import { CurrentUser } from 'src/user/decorators/user.decorator'
 
 import { CommentService } from './comment.service'
 import { UpdateCommentDto } from './dto/update-comment.dto'

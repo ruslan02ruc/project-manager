@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { PrismaService } from 'src/prisma.service'
 import { PusherService } from 'src/pusher/pusher.service'
-
-import { PrismaService } from '../prisma.service'
 
 import { UpdateCommentDto } from './dto/update-comment.dto'
 import { returnCommentObject } from './return-comment.object'

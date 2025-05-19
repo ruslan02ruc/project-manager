@@ -12,9 +12,8 @@ import {
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
-
-import { Auth } from '../auth/decorators/auth.decorator'
-import { CurrentUser } from '../user/decorators/user.decorator'
+import { Auth } from 'src/auth/decorators/auth.decorator'
+import { CurrentUser } from 'src/user/decorators/user.decorator'
 
 import { ProjectDto } from './dto/project.dto'
 import { GetProjectQueryDto } from './dto/project.query'

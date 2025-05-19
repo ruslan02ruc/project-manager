@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { path } from 'app-root-path'
-
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from 'src/prisma.service'
 
 import { FileController } from './file.controller'
 import { FileService } from './file.service'

@@ -13,8 +13,7 @@ import {
 	ValidationPipe
 } from '@nestjs/common'
 import { Auth } from 'src/auth/decorators/auth.decorator'
-
-import { CurrentUser } from '../user/decorators/user.decorator'
+import { CurrentUser } from 'src/user/decorators/user.decorator'
 
 import { ProjectMemberDto } from './dto/project-member.dto'
 import { ProjectMemberService } from './project-member.service'

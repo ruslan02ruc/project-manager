@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Priority, Prisma, Status } from '@prisma/client'
-import { PusherService } from 'src/pusher/pusher.service'
-import { TelegramService } from 'src/telegram/telegram.service'
-
 // import { TelegramService } from 'src/telegram/telegram.service'
 
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from 'src/prisma.service'
+import { PusherService } from 'src/pusher/pusher.service'
+import { TelegramService } from 'src/telegram/telegram.service'
 
 import { TaskDto } from './dto/task.dto'
 import { GetTasksQueryDto } from './dto/task.dto.query'

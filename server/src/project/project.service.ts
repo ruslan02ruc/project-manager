@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Prisma, Status } from '@prisma/client'
+import { PrismaService } from 'src/prisma.service'
 import { TelegramService } from 'src/telegram/telegram.service'
-
-import { PrismaService } from '../prisma.service'
 
 import { ProjectDto } from './dto/project.dto'
 import { GetProjectQueryDto } from './dto/project.query'

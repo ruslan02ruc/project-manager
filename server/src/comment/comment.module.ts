@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common'
+import { PrismaService } from 'src/prisma.service'
 import { PusherService } from 'src/pusher/pusher.service'
-
-import { PrismaService } from '../prisma.service'
 
 import { CommentController } from './comment.controller'
 import { CommentService } from './comment.service'
