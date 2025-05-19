@@ -39,4 +39,8 @@ export class TelegramUpdate {
 			`Telegram успешно привязан к вашему аккаунту, ${user.name}.`
 		)
 	}
+
+	onModuleDestroy() {
+		console.log('Бот выключается...')
+	}
 }

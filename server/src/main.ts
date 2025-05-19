@@ -14,9 +14,8 @@ async function bootstrap() {
 	SwaggerModule.setup('docs', app, documentFactory)
 
 	app.setGlobalPrefix('api')
-	app.enableCors({
-  		origin: '*',
-	})
+	app.enableCors()
+
 	await app.listen(4200)
 
 	// const session = await new SessionBuilder().authtokenFromEnv().connect()
