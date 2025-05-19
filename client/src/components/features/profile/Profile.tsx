@@ -99,9 +99,9 @@ export default function Profile() {
 							name='telegramName'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>telegram Name</FormLabel>
+									<FormLabel>Telegram name</FormLabel>
 									<FormControl>
-										<Input placeholder='telegram name' {...field} />
+										<Input placeholder='Telegram name' {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
